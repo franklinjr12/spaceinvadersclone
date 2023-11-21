@@ -30,7 +30,7 @@ int main(void) {
 	app.player = &player;
 
 	Image img_alien("assets/alien_sprite.png");
-	BodyRectangle rect_alien(SCREEN_WIDTH / 2, 100, img.width, img.height);
+	BodyRectangle rect_alien(SCREEN_WIDTH / 2, 100, img_alien.width, img_alien.height);
 	Body body_alien(img_alien, rect_alien);
 	body_alien.suffer_gravity = false;
 
