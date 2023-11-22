@@ -269,8 +269,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SpaceInvaders.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="PlayerShip.hpp" />
     <ClInclude Include="Shot.hpp" />
     <ClInclude Include="SpaceInvaders.hpp" />

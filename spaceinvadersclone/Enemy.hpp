@@ -1,18 +1,17 @@
 #pragma once
+
 #include <Application.hpp>
 
-class Shot {
+
+class Enemy {
 public:
-	Shot(int xpos, int ypos, float xdir, float ydir) {
-		img = new Image("assets/shoot.png");
+	Enemy(int xpos, int ypos) {
+		img = new Image("assets/alien_sprite.png");
 		br = new BodyRectangle(xpos, ypos, img->width, img->height);
 		body = new Body(*img, *br);
 		body->suffer_gravity = false;
-		const float vel = 10;
-		body->vel_x = vel * xdir;
-		body->vel_y = vel * ydir;
 	}
-	~Shot() {
+	~Enemy() {
 		if (img) delete img;
 		if (br) delete br;
 		if (body) delete body;
@@ -20,4 +19,5 @@ public:
 	Image* img;
 	BodyRectangle* br;
 	Body* body;
+
 };

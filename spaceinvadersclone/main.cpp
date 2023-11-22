@@ -8,15 +8,13 @@ using namespace std;
 
 
 int main(void) {
-	printf("Game init2\n");
+	printf("Game init\n");
 	app.init();
 	Image img("assets/player_ship.png");
 	BodyRectangle rect(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, img.width, img.height);
 	Body body(img, rect);
 	PlayerShip player(body);
-	int* mx = (int*)&app.mouse_xpos;
-	int* my = (int*)&app.mouse_ypos;
-	player.handler.callback = [&player, &mx, &my](std::vector<event_bytes_type> data) {
+	player.handler.callback = [&player](std::vector<event_bytes_type> data) {
 		switch (data[0]) {
 		case (event_bytes_type)EventType::KeyboardInput:
 			// if (action == GLFW_PRESS) printf("key %d scancode %d name '%s'\n", key, scancode, key_name);
@@ -35,8 +33,11 @@ int main(void) {
 		case (event_bytes_type)EventType::MouseInput:
 			if (data[1] == GLFW_PRESS) {
 				switch (data[2]) {
-				case GLFW_MOUSE_BUTTON_LEFT:
-					player.shoot(*mx, *my);
+				case GLFW_MOUSE_BUTTON_LEFT: {
+					int mx = data[3];
+					int my = data[4];
+					player.shoot(mx, my);
+				}
 				default:
 					break;
 				}
