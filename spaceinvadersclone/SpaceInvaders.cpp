@@ -6,7 +6,7 @@ void SpaceInvaders::game_loop() {
 	for (auto it = enemies.begin(); it != enemies.end(); ++it) {
 		std::vector<Shot*> remove_s;
 		for (auto it_s = shots.begin(); it_s != shots.end(); ++it_s) {
-			if (Collisions::isRectColliding((*it)->body->rectangle, (*it_s)->body->rectangle)) {
+			if (isRectColliding((*it)->body->rectangle, (*it_s)->body->rectangle)) {
 				remove_s.push_back(*it_s);
 				remove_e.push_back(*it);
 			}

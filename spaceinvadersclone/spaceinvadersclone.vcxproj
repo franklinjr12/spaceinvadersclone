@@ -130,6 +130,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='SpaceInvadersDebug|x64'">
     <IncludePath>$(IncludePath)</IncludePath>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -236,9 +237,11 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\franklin\source\repos\Arcane2DEngine\x64\MyRelease\Export;C:\Users\franklin\source\repos\Arcane2DEngine\dependencies\glew\lib;C:\Users\franklin\source\repos\Arcane2DEngine\dependencies\glfw\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\franklin\source\repos\Arcane2DEngine\Export;C:\Users\franklin\source\repos\Arcane2DEngine\dependencies\glew\lib;C:\Users\franklin\source\repos\Arcane2DEngine\dependencies\glfw\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies);glfw3dll.lib;opengl32.lib;glew32.lib;Arcane2DEngine.lib</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT /FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+      <LinkStatus>true</LinkStatus>
+      <ShowProgress>LinkVerbose</ShowProgress>
     </Link>
     <CustomBuildStep>
       <Command>

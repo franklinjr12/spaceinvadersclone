@@ -3,6 +3,7 @@
 #include <cstdio>
 #include "SpaceInvaders.hpp"
 #include "PlayerShip.hpp"
+#include "Collisions.hpp"
 
 using namespace std;
 
