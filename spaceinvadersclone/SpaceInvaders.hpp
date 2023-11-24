@@ -9,9 +9,7 @@
 
 class SpaceInvaders : public Application {
 public:
-	//std::vector<Shot*> shots;
 	std::forward_list<Shot*> shots;
-	//std::vector<Enemy*> enemies;
 	std::forward_list<Enemy*> enemies;
 	SpaceInvaders() {}
 	void game_loop() override;

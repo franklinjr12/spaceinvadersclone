@@ -2,6 +2,7 @@
 #include "Collisions.hpp"
 
 void SpaceInvaders::game_loop() {
+	player->body.update();
 	auto prev = enemies.before_begin();
 	auto current = enemies.begin();
 	while (current != enemies.end()) {
@@ -10,7 +11,6 @@ void SpaceInvaders::game_loop() {
 		auto current_s = shots.begin();
 		while (current_s != shots.end()) {
 			if (isRectColliding((*current)->body->rectangle, (*current_s)->body->rectangle)) {
-				printf("got a collision!!\n");
 				(*current)->should_delete = true;
 				(*current_s)->should_delete = true;
 			}

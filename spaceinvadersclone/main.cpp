@@ -22,10 +22,20 @@ int main(void) {
 			if (data[1] == GLFW_PRESS) {
 				switch (data[2]) {
 				case GLFW_KEY_RIGHT:
-					player.body.setX(player.body.getX() + 5);
+					player.body.vel_x = 5;
 					break;
 				case GLFW_KEY_LEFT:
-					player.body.setX(player.body.getX() - 5);
+					player.body.vel_x = -5;
+					break;
+				default:
+					break;
+				}
+			}
+			if (data[1] == GLFW_RELEASE) {
+				switch (data[2]) {
+				case GLFW_KEY_RIGHT:
+				case GLFW_KEY_LEFT:
+					player.body.vel_x = 0;
 					break;
 				default:
 					break;
