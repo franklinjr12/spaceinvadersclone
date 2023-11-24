@@ -54,17 +54,16 @@ int main(void) {
 
 	app.player = &player;
 
-	Image img_alien("assets/alien_sprite.png");
-	BodyRectangle rect_alien(SCREEN_WIDTH / 2, 100, img_alien.width, img_alien.height);
-	Body body_alien(img_alien, rect_alien);
-	body_alien.suffer_gravity = false;
+	Enemy* alien1 = new Enemy(SCREEN_WIDTH / 2, 100);
+	//app.enemies.push_back(alien1);
+	app.enemies.push_front(alien1);
 
 	Image background_img("assets/space_background.png", SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	Camera camera(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	Scene scene(camera, player.body, background_img, SCREEN_WIDTH, SCREEN_HEIGHT);
-	scene.bodies.push_back(&body_alien);
+	scene.bodies.push_back(alien1->body);
 
 	app.current_scene = &scene;
 

@@ -3,7 +3,7 @@
 #include <Application.hpp>
 
 
-class Enemy {
+class Enemy{
 public:
 	Enemy(int xpos, int ypos) {
 		img = new Image("assets/alien_sprite.png");
@@ -14,10 +14,9 @@ public:
 	~Enemy() {
 		if (img) delete img;
 		if (br) delete br;
-		if (body) delete body;
 	}
+	bool should_delete = false;
 	Image* img;
 	BodyRectangle* br;
 	Body* body;
-
 };

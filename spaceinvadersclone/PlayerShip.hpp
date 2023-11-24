@@ -13,7 +13,10 @@ public:
 		mag = sqrt(dirx * dirx + diry * diry);
 		dirx = dirx / mag;
 		diry = diry / mag;
-		app.current_scene->bodies.push_back((new Shot(body.getX(), body.getY() - 20, dirx, diry))->body);
+		Shot* shot = new Shot(body.getX(), body.getY() - 20, dirx, diry);
+		//app.shots.push_back(shot);
+		app.shots.push_front(shot);
+		app.current_scene->bodies.push_back(shot->body);
 		//new Shot(body.getX(), body.getY() - 20, dirx, diry);
 	}
 };

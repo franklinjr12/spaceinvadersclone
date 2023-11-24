@@ -131,6 +131,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='SpaceInvadersDebug|x64'">
     <IncludePath>$(IncludePath)</IncludePath>
     <LinkIncremental>true</LinkIncremental>
+    <SourcePath>C:\Users\franklin\source\repos\Arcane2DEngine\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -248,7 +249,7 @@
       </Command>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>copy "C:\Users\franklin\source\repos\Arcane2DEngine\x64\EngineOnlyDebug\Export\glew32.dll" "$(SolutionDir)$(Platform)\$(Configuration)\glew32.dll" &amp; copy "C:\Users\franklin\source\repos\Arcane2DEngine\x64\EngineOnlyDebug\Export\glfw3.dll" "$(SolutionDir)$(Platform)\$(Configuration)\glfw3.dll" &amp; copy "C:\Users\franklin\source\repos\Arcane2DEngine\x64\EngineOnlyDebug\Export\Arcane2DEngine.dll" "$(SolutionDir)$(Platform)\$(Configuration)\Arcane2DEngine.dll"</Command>
+      <Command>copy "C:\Users\franklin\source\repos\Arcane2DEngine\Export\glew32.dll" "$(SolutionDir)$(Platform)\$(Configuration)\glew32.dll" &amp; copy "C:\Users\franklin\source\repos\Arcane2DEngine\Export\glfw3.dll" "$(SolutionDir)$(Platform)\$(Configuration)\glfw3.dll" &amp; copy "C:\Users\franklin\source\repos\Arcane2DEngine\Export\Arcane2DEngine.dll" "$(SolutionDir)$(Platform)\$(Configuration)\Arcane2DEngine.dll"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copying dlls</Message>

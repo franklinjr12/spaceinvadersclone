@@ -2,19 +2,56 @@
 #include "Collisions.hpp"
 
 void SpaceInvaders::game_loop() {
-	std::vector<Enemy*> remove_e;
-	for (auto it = enemies.begin(); it != enemies.end(); ++it) {
-		std::vector<Shot*> remove_s;
-		for (auto it_s = shots.begin(); it_s != shots.end(); ++it_s) {
-			if (isRectColliding((*it)->body->rectangle, (*it_s)->body->rectangle)) {
-				remove_s.push_back(*it_s);
-				remove_e.push_back(*it);
+	auto prev = enemies.before_begin();
+	auto current = enemies.begin();
+	while (current != enemies.end()) {
+		(*current)->body->update();
+		auto prev_s = shots.before_begin();
+		auto current_s = shots.begin();
+		while (current_s != shots.end()) {
+			if (isRectColliding((*current)->body->rectangle, (*current_s)->body->rectangle)) {
+				printf("got a collision!!\n");
+				(*current)->should_delete = true;
+				(*current_s)->should_delete = true;
+			}
+			if ((*current_s)->should_delete)
+				current_s = shots.erase_after(prev_s);
+			else {
+				++prev_s;
+				++current_s;
 			}
 		}
-		for (auto it_s = remove_s.begin(); it_s != remove_s.end(); ++it_s)
-			shots.erase(std::remove(shots.begin(), shots.end(), *it_s), shots.end());
+		if ((*current)->should_delete)
+			current = enemies.erase_after(prev);
+		else {
+			++prev;
+			++current;
+		}
 	}
-	for (auto it = remove_e.begin(); it != remove_e.end(); ++it)
-		enemies.erase(std::remove(enemies.begin(), enemies.end(), *it), enemies.end());
 
+	auto prev_s = shots.before_begin();
+	auto current_s = shots.begin();
+	while (current_s != shots.end()) {
+		(*current_s)->body->update();
+		if ((*current_s)->should_delete)
+			current_s = shots.erase_after(prev_s);
+		else {
+			++prev_s;
+			++current_s;
+		}
+
+	}
+}
+
+void SpaceInvaders::game_draw() {
+	auto current = enemies.begin();
+	while (current != enemies.end()) {
+		(*current)->body->draw();
+		++current;
+	}
+	auto current_s = shots.begin();
+	while (current_s != shots.end()) {
+		(*current_s)->body->draw();
+		++current_s;
+	}
 }

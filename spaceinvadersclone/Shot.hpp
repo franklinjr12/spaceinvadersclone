@@ -17,6 +17,7 @@ public:
 		if (br) delete br;
 		if (body) delete body;
 	}
+	bool should_delete = false;
 	Image* img;
 	BodyRectangle* br;
 	Body* body;
