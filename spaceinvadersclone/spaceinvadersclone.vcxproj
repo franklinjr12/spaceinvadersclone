@@ -132,6 +132,7 @@
     <IncludePath>$(IncludePath)</IncludePath>
     <LinkIncremental>true</LinkIncremental>
     <SourcePath>C:\Users\franklin\source\repos\Arcane2DEngine\src;$(SourcePath)</SourcePath>
+    <PublicModuleDirectories>C:\Users\franklin\source\repos\Arcane2DEngine\src;</PublicModuleDirectories>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

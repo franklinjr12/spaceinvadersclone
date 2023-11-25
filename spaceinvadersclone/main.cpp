@@ -9,7 +9,7 @@ using namespace std;
 
 
 int main(void) {
-	printf("Game init\n");
+	printf("Game init1\n");
 	app.init();
 	Image img("assets/player_ship.png");
 	BodyRectangle rect(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, img.width, img.height);
@@ -64,8 +64,7 @@ int main(void) {
 
 	app.player = &player;
 
-	Enemy* alien1 = new Enemy(SCREEN_WIDTH / 2, 100);
-	//app.enemies.push_back(alien1);
+	Enemy* alien1 = new Enemy(SCREEN_WIDTH / 2, 200);
 	app.enemies.push_front(alien1);
 
 	Image background_img("assets/space_background.png", SCREEN_WIDTH, SCREEN_HEIGHT);
