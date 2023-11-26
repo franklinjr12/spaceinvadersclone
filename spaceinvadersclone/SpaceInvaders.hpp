@@ -14,6 +14,7 @@ public:
 	SpaceInvaders() {}
 	void game_loop() override;
 	void game_draw() override;
+	int score = 0;
 };
 
 static SpaceInvaders app;

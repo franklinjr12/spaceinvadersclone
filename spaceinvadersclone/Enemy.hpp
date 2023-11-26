@@ -1,13 +1,16 @@
 #pragma once
 
 #include <Application.hpp>
+#include "SpaceInvaders.hpp"
+#include <chrono>
+
+using namespace std::chrono;
 
 enum class EnemyPosition {
 	MOVINGUPRIGHT,
 	MOVINGDOWNRIGHT,
 	MOVINGORIGIN
 };
-
 
 struct Position {
 	int x;
@@ -20,10 +23,9 @@ int distancePosition(Position p1, Position p2) {
 	return sqrt(a * a + b * b);
 }
 
-
 class Enemy {
 public:
-	Enemy(int xpos, int ypos) {
+	Enemy(int xpos, int ypos, int vel = -1) {
 		img = new Image("assets/alien_sprite.png");
 		br = new BodyRectangle(xpos, ypos, img->width, img->height);
 		body = new Body(*img, *br);
@@ -38,8 +40,10 @@ public:
 		float dirx = positions[1].x - positions[0].x;
 		float diry = positions[1].y - positions[0].y;
 		float mag = sqrt(dirx * dirx + diry * diry);
+		if(vel == -1) vel = rand() % 5 + 1;
 		body->vel_x = dirx * vel / mag;
 		body->vel_y = diry * vel / mag;
+		tp = system_clock::now();
 	}
 	~Enemy() {
 		if (img) delete img;
@@ -48,6 +52,8 @@ public:
 	}
 	void update() {
 		body->update();
+		// TODO use the shot class and put it on the application forward_list
+		//process_shoot();
 		Position current;
 		current.x = body->getX();
 		current.y = body->getY();
@@ -84,6 +90,25 @@ public:
 			break;
 		}
 	}
+	void process_shoot() {
+		auto t = system_clock::now() - tp;
+		if (duration_cast<milliseconds>(t).count() > shoot_timeout_ms) {
+			tp = system_clock::now();
+			shoot(body->getX(), body->getY() + 10);
+		}
+	}
+	void shoot(int x, int y) {
+		float dirx, diry, mag;
+		const int middle = body->getX() + body->rectangle.w / 2;
+		dirx = x - middle;
+		diry = y - body->getY();
+		mag = sqrt(dirx * dirx + diry * diry);
+		dirx = dirx / mag;
+		diry = diry / mag;
+		Shot* shot = new Shot(middle, body->getY() - 10, dirx, diry);
+		//app.shots.push_front(shot);
+	}
+
 	Position positions[3];
 	EnemyPosition position_enum;
 	bool should_delete = false;
@@ -91,6 +116,9 @@ public:
 	BodyRectangle* br;
 	Body* body;
 	const int distance = 100;
-	const int threashold = 10;
-	const float vel = 5;
+	const int threashold = 5;
+	float vel = 5;
+	const int shoot_timeout_ms = 1000;
+	bool can_shoot = true;
+	system_clock::time_point tp;
 };
