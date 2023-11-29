@@ -2,7 +2,6 @@
 #include "Collisions.hpp"
 
 void SpaceInvaders::game_loop() {
-	player->body.update();
 	auto prev = enemies.before_begin();
 	auto current = enemies.begin();
 	while (current != enemies.end()) {
@@ -56,15 +55,4 @@ void SpaceInvaders::game_draw() {
 	Font font;
 	sprintf_s(text_buffer, "SCORE: %d\n", score);
 	font.print(10, 40, (char*)text_buffer, 1, 1, 1);
-
-	auto current = enemies.begin();
-	while (current != enemies.end()) {
-		(*current)->body->draw();
-		++current;
-	}
-	auto current_s = shots.begin();
-	while (current_s != shots.end()) {
-		(*current_s)->body->draw();
-		++current_s;
-	}
 }

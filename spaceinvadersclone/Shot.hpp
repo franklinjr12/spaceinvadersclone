@@ -1,24 +1,23 @@
 #pragma once
 #include <Application.hpp>
 
-class Shot {
+class Shot : DynamicBody {
 public:
-	Shot(int xpos, int ypos, float xdir, float ydir) {
-		img = new Image("assets/shoot.png");
-		br = new BodyRectangle(xpos, ypos, img->width, img->height);
-		body = new Body(*img, *br);
-		body->suffer_gravity = false;
-		const float vel = 10;
-		body->vel_x = vel * xdir;
-		body->vel_y = vel * ydir;
+
+	Shot(Vecf pos, Vecf dir) {
+		image = new Image("assets/shoot.png");
+		rectangle = new BodyRectangle(pos, image->width, image->height);
+		suffer_gravity = false;
+		const float vel_mult = 10;
+		vel[0] = vel_mult * dir[0];
+		vel[1] = vel_mult * dir[1];
 	}
 	~Shot() {
-		if (img) delete img;
-		if (br) delete br;
-		if (body) delete body;
+		if (image) delete image;
+		if (rectangle) delete rectangle;
 	}
-	bool should_delete = false;
-	Image* img;
-	BodyRectangle* br;
-	Body* body;
+
+	void handle_collision(ObjectId id) override {
+		should_erase = true;
+	};
 };

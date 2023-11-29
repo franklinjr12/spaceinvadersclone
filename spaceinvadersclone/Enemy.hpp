@@ -1,7 +1,9 @@
 #pragma once
 
-#include <Application.hpp>
 #include "SpaceInvaders.hpp"
+#include <Application.hpp>
+#include <ArcaneTypes.hpp>
+#include <ArcaneUtils.hpp>
 #include <chrono>
 
 using namespace std::chrono;
@@ -12,80 +14,68 @@ enum class EnemyPosition {
 	MOVINGORIGIN
 };
 
-struct Position {
-	int x;
-	int y;
-};
-
-int distancePosition(Position p1, Position p2) {
-	auto a = p1.x - p2.x;
-	auto b = p1.y - p2.y;
-	return sqrt(a * a + b * b);
-}
-
-class Enemy {
+class Enemy : public DynamicBody {
 public:
-	Enemy(int xpos, int ypos, int vel = -1) {
-		img = new Image("assets/alien_sprite.png");
-		br = new BodyRectangle(xpos, ypos, img->width, img->height);
-		body = new Body(*img, *br);
-		body->suffer_gravity = false;
+	Enemy(Vecf pos, float velocity = -1) {
+		image = new Image("assets/alien_sprite.png");
+		rectangle = new BodyRectangle(pos, image->width, image->height);
+		suffer_gravity = false;
 		position_enum = EnemyPosition::MOVINGUPRIGHT;
-		positions[0].x = xpos;
-		positions[0].y = ypos;
-		positions[1].x = positions[0].x + distance;
-		positions[1].y = positions[0].y - distance;
-		positions[2].x = positions[1].x + distance;
-		positions[2].y = positions[1].y + distance;
-		float dirx = positions[1].x - positions[0].x;
-		float diry = positions[1].y - positions[0].y;
+		points[0].x = pos[0];
+		points[0].y = pos[1];
+		points[1].x = points[0].x + distance;
+		points[1].y = points[0].y - distance;
+		points[2].x = points[1].x + distance;
+		points[2].y = points[1].y + distance;
+		float dirx = points[1].x - points[0].x;
+		float diry = points[1].y - points[0].y;
 		float mag = sqrt(dirx * dirx + diry * diry);
-		if(vel == -1) vel = rand() % 5 + 1;
-		body->vel_x = dirx * vel / mag;
-		body->vel_y = diry * vel / mag;
+		if (velocity == -1) velocity = rand() % 5 + 1;
+		vel_mult = velocity;
+		vel[0] = dirx * vel_mult / mag;
+		vel[1] = diry * vel_mult / mag;
 		tp = system_clock::now();
 	}
 	~Enemy() {
-		if (img) delete img;
-		if (br) delete br;
-		if (body) delete body;
+		if (image) delete image;
+		if (rectangle) delete rectangle;
 	}
 	void update() {
-		body->update();
 		// TODO use the shot class and put it on the application forward_list
 		//process_shoot();
-		Position current;
-		current.x = body->getX();
-		current.y = body->getY();
+		Point current;
+		Point path[3];
+		current.x = getX();
+		current.y = getY();
 		switch (position_enum) {
 		case EnemyPosition::MOVINGORIGIN:
-			if (distancePosition(current, positions[0]) < threashold) {
+			if (DistanceVecf(current.pos, points[0].pos) < threashold) {
 				position_enum = EnemyPosition::MOVINGUPRIGHT;
-				float dirx = positions[1].x - body->getX();
-				float diry = positions[1].y - body->getY();
-				float mag = sqrt(dirx * dirx + diry * diry);
-				body->vel_x = dirx * vel / mag;
-				body->vel_y = diry * vel / mag;
+				float dirx = points[1].x - getX();
+				float diry = points[1].y - getY();
+				float mag = MagVecf(points[1].pos);
+				vel[0] = dirx * vel_mult / mag;
+				vel[1] = diry * vel_mult / mag;
 			}
 			break;
 		case EnemyPosition::MOVINGUPRIGHT:
-			if (distancePosition(current, positions[1]) < threashold) {
-				position_enum = EnemyPosition::MOVINGDOWNRIGHT;
-				float dirx = positions[2].x - body->getX();
-				float diry = positions[2].y - body->getY();
-				float mag = sqrt(dirx * dirx + diry * diry);
-				body->vel_x = dirx * vel / mag;
-				body->vel_y = diry * vel / mag;
+			if (DistanceVecf(current.pos, points[1].pos) < threashold) {
+				position_enum = EnemyPosition::MOVINGUPRIGHT;
+				float dirx = points[2].x - getX();
+				float diry = points[2].y - getY();
+				float mag = MagVecf(points[2].pos);
+				vel[0] = dirx * vel_mult / mag;
+				vel[1] = diry * vel_mult / mag;
 			}
 			break;
 		case EnemyPosition::MOVINGDOWNRIGHT:
-			if (distancePosition(current, positions[2]) < threashold) {
-				position_enum = EnemyPosition::MOVINGORIGIN;
-				float dirx = positions[0].x - body->getX();
-				float diry = positions[0].y - body->getY();
-				float mag = sqrt(dirx * dirx + diry * diry);
-				body->vel_x = dirx * vel / mag;
-				body->vel_y = diry * vel / mag;
+			if (DistanceVecf(current.pos, points[2].pos) < threashold) {
+				position_enum = EnemyPosition::MOVINGUPRIGHT;
+				float dirx = points[0].x - getX();
+				float diry = points[0].y - getY();
+				float mag = MagVecf(points[0].pos);
+				vel[0] = dirx * vel_mult / mag;
+				vel[1] = diry * vel_mult / mag;
 			}
 			break;
 		}
@@ -94,30 +84,26 @@ public:
 		auto t = system_clock::now() - tp;
 		if (duration_cast<milliseconds>(t).count() > shoot_timeout_ms) {
 			tp = system_clock::now();
-			shoot(body->getX(), body->getY() + 10);
+			shoot(getX(), getY() + 10);
 		}
 	}
 	void shoot(int x, int y) {
 		float dirx, diry, mag;
-		const int middle = body->getX() + body->rectangle.w / 2;
-		dirx = x - middle;
-		diry = y - body->getY();
+		dirx = x - getX();
+		diry = y - getY();
 		mag = sqrt(dirx * dirx + diry * diry);
 		dirx = dirx / mag;
 		diry = diry / mag;
-		Shot* shot = new Shot(middle, body->getY() - 10, dirx, diry);
+		Shot* shot = new Shot(getX(), getY() - 10, dirx, diry);
 		//app.shots.push_front(shot);
 	}
 
-	Position positions[3];
+	Point points[3];
 	EnemyPosition position_enum;
 	bool should_delete = false;
-	Image* img;
-	BodyRectangle* br;
-	Body* body;
 	const int distance = 100;
 	const int threashold = 5;
-	float vel = 5;
+	float vel_mult = 5;
 	const int shoot_timeout_ms = 1000;
 	bool can_shoot = true;
 	system_clock::time_point tp;
