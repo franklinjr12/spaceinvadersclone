@@ -1,7 +1,7 @@
 #pragma once
 #include <Application.hpp>
 
-class Shot : DynamicBody {
+class Shot : public DynamicBody {
 public:
 
 	Shot(Vecf pos, Vecf dir) {
@@ -18,6 +18,6 @@ public:
 	}
 
 	void handle_collision(ObjectId id) override {
-		should_erase = true;
+		should_delete = true;
 	};
 };

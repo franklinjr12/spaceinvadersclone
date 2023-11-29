@@ -10,11 +10,14 @@ public:
 		float dirx, diry, mag;
 		dirx = x - getX();
 		diry = y - getY();
-		mag = sqrt(dirx * dirx + diry * diry);
-		dirx = dirx / mag;
-		diry = diry / mag;
-		Shot* shot = new Shot(getX(), getY() - 10, dirx, diry);
+		Vecf dir = { dirx, diry };
+		mag = MagVecf(dir);
+		dir[0] = dir[0] / mag;
+		dir[1] = dir[1] / mag;
+		Vecf p1 = { getX(), getY() - 10 };
+		Shot* shot = new Shot(p1, dir);
 		app.shots.push_front(shot);
-		//app.current_scene->bodies.push_back(shot->body);
+		//app.shots.push_front(shot);
 	}
+
 };

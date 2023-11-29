@@ -15,6 +15,9 @@ public:
 	void game_loop() override;
 	void game_draw() override;
 	int score = 0;
+
+	void clear_enemies();
+	void clear_shots();
 };
 
 static SpaceInvaders app;
