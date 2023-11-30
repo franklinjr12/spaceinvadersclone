@@ -1,16 +1,19 @@
+#include "SpaceInvaders.hpp"
+#include "PlayerShip.hpp"
+#include "Enemy.hpp"
+
+#include <Collisions.hpp>
 #include <iostream>
 #include <cstring>
 #include <cstdio>
 #include <random>
-#include "SpaceInvaders.hpp"
-#include "PlayerShip.hpp"
-#include "Collisions.hpp"
 
 using namespace std;
 
 int main(void) {
-	printf("Game init\n");
-	app.init();
+	printf("Game init1\n");
+	app = new SpaceInvaders();
+	app->init();
 	Image img("assets/player_ship.png");
 	Vecf p1 = {SCREEN_WIDTH / 2, SCREEN_HEIGHT * 0.8};
 	BodyRectangle rect(p1, img.width, img.height);
@@ -59,15 +62,17 @@ int main(void) {
 
 	player.suffer_gravity = false;
 
-	app.player = &player;
+	app->player = &player;
 
 	Image background_img("assets/spaceinvaders_background.png", SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	Camera camera(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	Scene game_over(&camera, &background_img, SCREEN_WIDTH, SCREEN_HEIGHT);
+
 	Scene scene(&camera, &background_img, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	app.current_scene = &scene;
+	app->current_scene = &scene;
 
 	scene.add_body(&player);
 
@@ -77,7 +82,6 @@ int main(void) {
 	for (int i = 0; i < NUM_ENEMIES; i++) {
 		Vecf p2 = { xoffset + i * SCREEN_WIDTH / (NUM_ENEMIES), yoffset };
 		Enemy* alien = new Enemy(p2);
-		app.enemies.push_front(alien);
 		scene.add_body(alien);
 	}
 
@@ -85,9 +89,11 @@ int main(void) {
 	EventsManager ev_manager;
 	ev_manager.subscribe(EventType::KeyboardInput, player.handler);
 	ev_manager.subscribe(EventType::MouseInput, player.handler);
-	app.events_manager = &ev_manager;
+	app->events_manager = &ev_manager;
 
-	app.run();
+	app->run();
+
+	delete app;
 
 	return 0;
 }

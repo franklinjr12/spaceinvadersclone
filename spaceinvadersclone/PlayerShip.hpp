@@ -1,6 +1,9 @@
 #pragma once
+
 #include "SpaceInvaders.hpp"
 #include "Shot.hpp"
+
+#include <ArcaneUtils.hpp>
 
 class PlayerShip : public Player {
 public:
@@ -14,10 +17,9 @@ public:
 		mag = MagVecf(dir);
 		dir[0] = dir[0] / mag;
 		dir[1] = dir[1] / mag;
-		Vecf p1 = { getX(), getY() - 10 };
+		Vecf p1 = { getX(), getY() - image->height/2 - 10};
 		Shot* shot = new Shot(p1, dir);
-		app.shots.push_front(shot);
-		//app.shots.push_front(shot);
+		app->current_scene->add_body(shot);
 	}
 
 };

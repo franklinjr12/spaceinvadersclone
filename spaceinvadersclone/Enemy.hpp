@@ -1,6 +1,8 @@
 #pragma once
 
 #include "SpaceInvaders.hpp"
+#include "SpaceInvadersGroups.hpp"
+
 #include <Application.hpp>
 #include <ArcaneTypes.hpp>
 #include <ArcaneUtils.hpp>
@@ -36,6 +38,7 @@ public:
 		vel_mult = velocity;
 		vel[0] = dirx * vel_mult / mag;
 		vel[1] = diry * vel_mult / mag;
+		groups.push_back((ObjectGroup)SpaceInvadersGroups::Enemy);
 		tp = system_clock::now();
 	}
 
@@ -43,8 +46,7 @@ public:
 	}
 
 	void _update() override {
-		// TODO use the shot class and put it on the application forward_list
-		//process_shoot();
+		process_shoot();
 		Point current;
 		current.x = getX();
 		current.y = getY();
@@ -96,9 +98,9 @@ public:
 		mag = MagVecf(dir);
 		dir[0] = dir[0] / mag;
 		dir[1] = dir[1] / mag;
-		Vecf p1 = { getX(), getY() - 10 };
+		Vecf p1 = { getX(), getY() + image->height / 2 + 10 };
 		Shot* shot = new Shot(p1, dir);
-		//app.shots.push_front(shot);
+		app->current_scene->add_body(shot);
 	}
 
 	Point points[3];

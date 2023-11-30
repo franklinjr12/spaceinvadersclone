@@ -1,9 +1,11 @@
 #include "SpaceInvaders.hpp"
 #include "Collisions.hpp"
+#include "SpaceInvadersGroups.hpp"
+
+#include <algorithm>
 
 void SpaceInvaders::game_loop() {
-	//clear_enemies();
-	//clear_shots();
+	clear_bodies();
 }
 
 void SpaceInvaders::game_draw() {
@@ -14,50 +16,25 @@ void SpaceInvaders::game_draw() {
 	sprintf_s(text_buffer, "SCORE: %d\n", score);
 	font.print(10, ypos, (char*)text_buffer, 1, 1, 1);
 	ypos += 20;
-	Enemy* e = enemies.front();
-	sprintf_s(text_buffer, "cx %03f cy %03f\n", e->getX(), e->getY());
-	font.print(10, ypos, (char*)text_buffer, 1, 1, 1);
-	ypos += 20;
-	sprintf_s(text_buffer, "tx %03f ty %03f\n", e->points[1].x, e->points[1].y);
-	font.print(10, ypos, (char*)text_buffer, 1, 1, 1);
-	ypos += 20;
-	Point current;
-	current.x = e->getX();
-	current.y = e->getY();
-	sprintf_s(text_buffer, "dist %03f\n", DistanceVecf(current.pos, e->points[1].pos));
-	font.print(10, ypos, (char*)text_buffer, 1, 1, 1);
-	ypos += 20;
 }
 
-void SpaceInvaders::clear_enemies() {
-	auto prev = enemies.before_begin();
-	auto current = enemies.begin();
-	while (current != enemies.end()) {
+void SpaceInvaders::clear_bodies() {
+	auto current = current_scene->bodies.begin();
+	while (current != current_scene->bodies.end()) {
 		if ((*current)->collided || (*current)->should_delete) {
-			Enemy* temp = *current;
-			current = enemies.erase_after(prev);
-			current_scene->remove_body(temp->id);
-			delete temp;
-			score++;
-		}
-		else {
-			++prev;
+			const Body* temp = *current;
 			++current;
-		}
-	}
-}
-
-void SpaceInvaders::clear_shots() {
-	auto prev = shots.before_begin();
-	auto current = shots.begin();
-	while (current != shots.end()) {
-		if ((*current)->collided || (*current)->should_delete) {
-			Shot* temp = *current;
-			current = shots.erase_after(prev);
-			delete temp;
+			if (temp->id != player->id) {
+				for(auto it = temp->groups.begin(); it != temp->groups.end(); it++)
+					if ((ObjectGroup)(*it) == (ObjectGroup)SpaceInvadersGroups::Enemy)
+						score++;
+				current_scene->remove_body(temp->id);
+				delete temp;
+			}
+			else
+				; //game over
 		}
 		else {
-			++prev;
 			++current;
 		}
 	}
