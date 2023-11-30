@@ -21,6 +21,8 @@ public:
 		rectangle = new BodyRectangle(pos, image->width, image->height);
 		suffer_gravity = false;
 		position_enum = EnemyPosition::MOVINGUPRIGHT;
+		setX(pos[0]);
+		setY(pos[1]);
 		points[0].x = pos[0];
 		points[0].y = pos[1];
 		points[1].x = points[0].x + distance;
@@ -36,11 +38,11 @@ public:
 		vel[1] = diry * vel_mult / mag;
 		tp = system_clock::now();
 	}
+
 	~Enemy() {
-		if (image) delete image;
-		if (rectangle) delete rectangle;
 	}
-	void update() {
+
+	void _update() override {
 		// TODO use the shot class and put it on the application forward_list
 		//process_shoot();
 		Point current;

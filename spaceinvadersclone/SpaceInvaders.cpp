@@ -2,16 +2,25 @@
 #include "Collisions.hpp"
 
 void SpaceInvaders::game_loop() {
-	clear_enemies();
-	clear_shots();
+	//clear_enemies();
+	//clear_shots();
 }
 
 void SpaceInvaders::game_draw() {
 	const int buf_size = 128;
 	char text_buffer[buf_size];
 	Font font;
+	int ypos = 40;
 	sprintf_s(text_buffer, "SCORE: %d\n", score);
-	font.print(10, 40, (char*)text_buffer, 1, 1, 1);
+	font.print(10, ypos, (char*)text_buffer, 1, 1, 1);
+	ypos += 20;
+	Enemy* e = enemies.front();
+	sprintf_s(text_buffer, "cx %03f cy %03f\n", e->getX(), e->getY());
+	font.print(10, ypos, (char*)text_buffer, 0, 0, 0);
+	ypos += 20;
+	sprintf_s(text_buffer, "tx %03f ty %03f\n", e->points[0].x, e->points[0].y);
+	font.print(10, ypos, (char*)text_buffer, 0, 0, 0);
+	ypos += 20;
 }
 
 void SpaceInvaders::clear_enemies() {
@@ -21,6 +30,7 @@ void SpaceInvaders::clear_enemies() {
 		if ((*current)->collided || (*current)->should_delete) {
 			Enemy* temp = *current;
 			current = enemies.erase_after(prev);
+			current_scene->remove_body(temp->id);
 			delete temp;
 			score++;
 		}

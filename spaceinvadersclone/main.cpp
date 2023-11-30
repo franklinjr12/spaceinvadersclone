@@ -9,7 +9,7 @@
 using namespace std;
 
 int main(void) {
-	printf("Game init\n");
+	printf("Game init1\n");
 	app.init();
 	Image img("assets/player_ship.png");
 	Vecf p1 = {SCREEN_WIDTH / 2, SCREEN_HEIGHT * 0.8};
