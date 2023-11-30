@@ -16,10 +16,16 @@ void SpaceInvaders::game_draw() {
 	ypos += 20;
 	Enemy* e = enemies.front();
 	sprintf_s(text_buffer, "cx %03f cy %03f\n", e->getX(), e->getY());
-	font.print(10, ypos, (char*)text_buffer, 0, 0, 0);
+	font.print(10, ypos, (char*)text_buffer, 1, 1, 1);
 	ypos += 20;
-	sprintf_s(text_buffer, "tx %03f ty %03f\n", e->points[0].x, e->points[0].y);
-	font.print(10, ypos, (char*)text_buffer, 0, 0, 0);
+	sprintf_s(text_buffer, "tx %03f ty %03f\n", e->points[1].x, e->points[1].y);
+	font.print(10, ypos, (char*)text_buffer, 1, 1, 1);
+	ypos += 20;
+	Point current;
+	current.x = e->getX();
+	current.y = e->getY();
+	sprintf_s(text_buffer, "dist %03f\n", DistanceVecf(current.pos, e->points[1].pos));
+	font.print(10, ypos, (char*)text_buffer, 1, 1, 1);
 	ypos += 20;
 }
 

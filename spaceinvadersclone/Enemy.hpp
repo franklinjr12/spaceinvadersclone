@@ -29,8 +29,8 @@ public:
 		points[1].y = points[0].y - distance;
 		points[2].x = points[1].x + distance;
 		points[2].y = points[1].y + distance;
-		float dirx = points[1].x - points[0].x;
-		float diry = points[1].y - points[0].y;
+		float dirx = points[1].x - getX();
+		float diry = points[1].y - getY();
 		float mag = sqrt(dirx * dirx + diry * diry);
 		if (velocity == -1) velocity = rand() % 5 + 1;
 		vel_mult = velocity;
@@ -46,7 +46,6 @@ public:
 		// TODO use the shot class and put it on the application forward_list
 		//process_shoot();
 		Point current;
-		Point path[3];
 		current.x = getX();
 		current.y = getY();
 		switch (position_enum) {
@@ -55,27 +54,27 @@ public:
 				position_enum = EnemyPosition::MOVINGUPRIGHT;
 				float dirx = points[1].x - getX();
 				float diry = points[1].y - getY();
-				float mag = MagVecf(points[1].pos);
+				float mag = MagVecf(Vecf{ dirx,diry });
 				vel[0] = dirx * vel_mult / mag;
 				vel[1] = diry * vel_mult / mag;
 			}
 			break;
 		case EnemyPosition::MOVINGUPRIGHT:
 			if (DistanceVecf(current.pos, points[1].pos) < threashold) {
-				position_enum = EnemyPosition::MOVINGUPRIGHT;
+				position_enum = EnemyPosition::MOVINGDOWNRIGHT;
 				float dirx = points[2].x - getX();
 				float diry = points[2].y - getY();
-				float mag = MagVecf(points[2].pos);
+				float mag = MagVecf(Vecf{ dirx,diry });
 				vel[0] = dirx * vel_mult / mag;
 				vel[1] = diry * vel_mult / mag;
 			}
 			break;
 		case EnemyPosition::MOVINGDOWNRIGHT:
 			if (DistanceVecf(current.pos, points[2].pos) < threashold) {
-				position_enum = EnemyPosition::MOVINGUPRIGHT;
+				position_enum = EnemyPosition::MOVINGORIGIN;
 				float dirx = points[0].x - getX();
 				float diry = points[0].y - getY();
-				float mag = MagVecf(points[0].pos);
+				float mag = MagVecf(Vecf{ dirx,diry });
 				vel[0] = dirx * vel_mult / mag;
 				vel[1] = diry * vel_mult / mag;
 			}
@@ -105,7 +104,7 @@ public:
 	Point points[3];
 	EnemyPosition position_enum;
 	const int distance = 100;
-	const int threashold = 5;
+	const int threashold = 10;
 	float vel_mult = 5;
 	const int shoot_timeout_ms = 1000;
 	bool can_shoot = true;
