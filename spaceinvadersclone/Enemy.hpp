@@ -100,8 +100,16 @@ public:
 		dir[1] = dir[1] / mag;
 		Vecf p1 = { getX(), getY() + image->height / 2 + 10 };
 		Shot* shot = new Shot(p1, dir);
+		shot->owner_id = id;
 		app->current_scene->add_body(shot);
 	}
+
+	void handle_collision(ObjectId _id) override {
+		// get the shot it colldided
+		Shot* shot = (Shot*)app->current_scene->bodies_map[_id];
+		if (shot->owner_id == id)
+			collided = false;
+	};
 
 	Point points[3];
 	EnemyPosition position_enum;
@@ -109,6 +117,5 @@ public:
 	const int threashold = 10;
 	float vel_mult = 5;
 	const int shoot_timeout_ms = 1000;
-	bool can_shoot = true;
 	system_clock::time_point tp;
 };

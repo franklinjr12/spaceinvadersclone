@@ -22,4 +22,6 @@ public:
 	void handle_collision(ObjectId id) override {
 		should_delete = true;
 	};
+
+	ObjectId owner_id;
 };

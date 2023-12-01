@@ -19,6 +19,7 @@ int main(void) {
 	BodyRectangle* rect = new BodyRectangle(p1, img->width, img->height);
 	PlayerShip* player = new PlayerShip(img, rect);
 	player->handler.callback = [player](std::vector<event_bytes_type> data) {
+		if (app->current_scene->name == "game over") return; // very bad way to do but works
 		switch (data[0]) {
 		case (event_bytes_type)EventType::KeyboardInput:
 			if (data[1] == GLFW_PRESS || data[1] == GLFW_REPEAT) {
@@ -69,7 +70,7 @@ int main(void) {
 	Camera camera(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	Scene game_over(&camera, &background_img, SCREEN_WIDTH, SCREEN_HEIGHT);
-
+	game_over.name = "game over";
 	app->game_over = &game_over;
 
 	Scene scene(&camera, &background_img, SCREEN_WIDTH, SCREEN_HEIGHT);
