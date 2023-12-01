@@ -19,7 +19,8 @@ enum class EnemyPosition {
 class Enemy : public DynamicBody {
 public:
 	Enemy(Vecf pos, float velocity = -1) {
-		image = new Image("assets/alien_sprite.png");
+		image = new Image("assets/alien.png");
+		//image = new Image("assets/alien_sprite.png");
 		rectangle = new BodyRectangle(pos, image->width, image->height);
 		suffer_gravity = false;
 		position_enum = EnemyPosition::MOVINGUPRIGHT;

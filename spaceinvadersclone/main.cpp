@@ -11,10 +11,11 @@
 using namespace std;
 
 int main(void) {
-	printf("Game init\n");
+	printf("Game init1\n");
 	app = new SpaceInvaders();
 	app->init();
-	Image* img = new Image("assets/player_ship.png");
+	Image* img = new Image("assets/own_ship.png");
+	//Image* img = new Image("assets/player_ship.png");
 	Vecf p1 = {SCREEN_WIDTH / 2, SCREEN_HEIGHT * 0.8};
 	BodyRectangle* rect = new BodyRectangle(p1, img->width, img->height);
 	PlayerShip* player = new PlayerShip(img, rect);

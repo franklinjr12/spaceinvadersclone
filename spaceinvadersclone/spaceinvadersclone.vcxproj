@@ -206,24 +206,31 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='SpaceInvadersRelease|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_WIN64;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\franklin\source\repos\Arcane2DEngine\dependencies\glfw\include;C:\Users\franklin\source\repos\Arcane2DEngine\dependencies\glew\include;C:\Users\franklin\source\repos\Arcane2DEngine\stb;C:\Users\franklin\source\repos\Arcane2DEngine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\franklin\source\repos\Arcane2DEngine\x64\MyRelease\Export;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\franklin\source\repos\Arcane2DEngine\Export;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Arcane2DEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT /FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <CustomBuildStep>
       <Command>copy "C:\Users\franklin\source\repos\Arcane2DEngine\x64\MyRelease\Export\Arcane2DEngine.dll" "$(SolutionDir)$(Platform)\$(Configuration)\Arcane2DEngine.dll"</Command>
     </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy "C:\Users\franklin\source\repos\Arcane2DEngine\Export\Arcane2DEngine.dll" "$(SolutionDir)$(Platform)\$(Configuration)\Arcane2DEngine.dll"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='SpaceInvadersDebug|x64'">
     <ClCompile>
