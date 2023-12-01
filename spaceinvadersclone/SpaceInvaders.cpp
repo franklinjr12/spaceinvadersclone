@@ -16,6 +16,10 @@ void SpaceInvaders::game_draw() {
 	sprintf_s(text_buffer, "SCORE: %d\n", score);
 	font.print(10, ypos, (char*)text_buffer, 1, 1, 1);
 	ypos += 20;
+	if (current_scene == game_over) {
+		sprintf_s(text_buffer, "GAME OVER\n");
+		font.print(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, (char*)text_buffer, 1, 1, 1);
+	}
 }
 
 void SpaceInvaders::clear_bodies() {
@@ -25,14 +29,17 @@ void SpaceInvaders::clear_bodies() {
 			const Body* temp = *current;
 			++current;
 			if (temp->id != player->id) {
-				for(auto it = temp->groups.begin(); it != temp->groups.end(); it++)
+				for (auto it = temp->groups.begin(); it != temp->groups.end(); it++)
 					if ((ObjectGroup)(*it) == (ObjectGroup)SpaceInvadersGroups::Enemy)
 						score++;
 				current_scene->remove_body(temp->id);
 				delete temp;
 			}
 			else
-				; //game over
+			{
+				current_scene = game_over;
+				return;
+			}
 		}
 		else {
 			++current;

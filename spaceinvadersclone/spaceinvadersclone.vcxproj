@@ -229,7 +229,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WIN64;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\franklin\source\repos\Arcane2DEngine\include;C:\Users\franklin\source\repos\Arcane2DEngine\stb;C:\Users\franklin\source\repos\Arcane2DEngine\dependencies\glfw\include;C:\Users\franklin\source\repos\Arcane2DEngine\dependencies\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
