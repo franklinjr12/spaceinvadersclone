@@ -3,6 +3,7 @@
 #include "Enemy.hpp"
 
 #include <Collisions.hpp>
+#include <ArcaneVersion.hpp>
 #include <iostream>
 #include <cstring>
 #include <cstdio>
@@ -11,7 +12,8 @@
 using namespace std;
 
 int main(void) {
-	printf("Game init1\n");
+	printf("Game init\n");
+	printf("Arcane Engine version %s\n", arcane_version_string().c_str());
 	app = new SpaceInvaders();
 	app->init();
 	Image* img = new Image("assets/own_ship.png");
